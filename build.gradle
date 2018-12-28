@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group 'net.tomocraft'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+def defaultEncoding = 'UTF-8'
+tasks.withType(AbstractCompile) each { it.options.encoding = defaultEncoding }
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/io.netty/netty-all
+    compile group: 'io.netty', name: 'netty-all', version: '4.1.28.Final'
+}
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'net.tomocraft.Main'
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
